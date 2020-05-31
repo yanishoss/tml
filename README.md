@@ -4,7 +4,7 @@
 
 ## Installation
 ```shell script
-go get -u github.com/yanishoss/tml/parser
+go get -u github.com/yanishoss/tml
 ```
 
 ## Usage
