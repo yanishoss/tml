@@ -115,6 +115,10 @@ func (p *parser) parseRows() ([]Row, error) {
 			return rows, nil
 		}
 
+		if p.l.PeekToken().Type == lexer.EOF {
+			return rows, nil
+		}
+
 		row, err := p.parseRow()
 
 		if err != nil {
@@ -191,6 +195,7 @@ func (p *parser) parseRow() (Row, error) {
 		if err != nil {
 			return row, err
 		}
+		tok = p.l.NextToken()
 	} else if tok.Type == lexer.AT {
 		tok = p.l.NextToken()
 
@@ -209,9 +214,8 @@ func (p *parser) parseRow() (Row, error) {
 		}
 
 		row.RPE = &rpe
+		tok = p.l.NextToken()
 	}
-
-	tok = p.l.NextToken()
 
 	if tok.Type == lexer.AT {
 		tok = p.l.NextToken()
@@ -237,6 +241,12 @@ func (p *parser) parseRow() (Row, error) {
 
 	if tok.Type != lexer.DELIMITER {
 		return row, errors.New(fmt.Sprintf("bad token: Token{%s, %s}, before: Token{%s, %s}", tok.Type, tok.Literal, p.l.PeekToken().Type, p.l.PeekToken().Literal))
+	}
+
+	if row.Unit == "count" {
+		row.Sets = row.Reps
+		row.Reps = int(row.Weight)
+		row.Weight = 1
 	}
 
 	return row, nil
@@ -271,7 +281,6 @@ func (p *parser) Parse() (*Workout, error) {
 			w.Exercises = append(w.Exercises, e)
 			break
 		default:
-			fmt.Println("here: ", tok)
 			return w, errors.New(fmt.Sprintf("bad token: Token{%s, %s}, before: Token{%s, %s}", tok.Type, tok.Literal, p.l.PeekToken().Type, p.l.PeekToken().Literal))
 		}
 	}

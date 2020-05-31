@@ -21,7 +21,6 @@ some comments about the workout
 60kg x 3 x 5 @ 6
 60kg x 3 x 5
 60kg x 3 @ 6
-60 x 3
 
 
 
@@ -45,6 +44,9 @@ good deadlift session
 good deadlift session
 good deadlift session
 
+# Push-up
+
+5x3
 
 
 `)
@@ -91,7 +93,6 @@ good deadlift session
 					{5, 3, getFloat(6), 60, "kg"},
 					{5, 3, nil, 60, "kg"},
 					{1, 3, getFloat(6), 60, "kg"},
-					{1, 3, nil, 60, "kg"},
 				},
 				Comment: getString("good squat session\ngood squat session\ngood squat session\ngood squat session\n"),
 			},
@@ -104,12 +105,19 @@ good deadlift session
 				},
 				Comment: getString("good deadlift session\ngood deadlift session\ngood deadlift session\ngood deadlift session\n"),
 			},
+
+			{
+				Name: "Push-up",
+				Rows: []Row{
+					{3, 5, nil, 1, "count"},
+				},
+			},
 		},
 	}
 
 	p := New(l, Config{
-		DefaultUnit: "kg",
-		ValidUnits:  []string{"kg"},
+		DefaultUnit: "count",
+		ValidUnits:  []string{"kg", "count"},
 		RPERange:    [2]float64{0, 11},
 	})
 
@@ -123,6 +131,10 @@ good deadlift session
 		t.Error("field \"Workout.Comment\" not correct")
 	}
 
+	if len(w.Exercises) != len(correctWorkout.Exercises) {
+		t.Errorf("some exercises are missing: expected: %d, got: %d\n", len(correctWorkout.Exercises), len(w.Exercises))
+	}
+
 	for i, e := range w.Exercises {
 		if !checkString(e.Comment, correctWorkout.Exercises[i].Comment) {
 			t.Errorf("field \"Workout.Exercises[%d].Comment\" not correct\n", i)
@@ -132,24 +144,28 @@ good deadlift session
 			t.Errorf("field \"Workout.Exercises[%d].Name\" not correct\n", i)
 		}
 
+		if len(e.Rows) != len(correctWorkout.Exercises[i].Rows) {
+			t.Errorf("some rows are missing: expected: %d, got: %d\n", len(correctWorkout.Exercises[i].Rows), len(e.Rows))
+		}
+
 		for j, row := range e.Rows {
 			if !checkFloat(row.RPE, w.Exercises[i].Rows[j].RPE) {
 				t.Errorf("field \"Workout.Exercises[%d].Rows[%d].RPE\" not correct\n", i, j)
 			}
 
-			if row.Reps != w.Exercises[i].Rows[j].Reps {
+			if row.Reps != correctWorkout.Exercises[i].Rows[j].Reps {
 				t.Errorf("field \"Workout.Exercises[%d].Rows[%d].Reps\" not correct\n", i, j)
 			}
 
-			if row.Unit != w.Exercises[i].Rows[j].Unit {
+			if row.Unit != correctWorkout.Exercises[i].Rows[j].Unit {
 				t.Errorf("field \"Workout.Exercises[%d].Rows[%d].Unit\" not correct\n", i, j)
 			}
 
-			if row.Weight != w.Exercises[i].Rows[j].Weight {
+			if row.Weight != correctWorkout.Exercises[i].Rows[j].Weight {
 				t.Errorf("field \"Workout.Exercises[%d].Rows[%d].Weight\" not correct\n", i, j)
 			}
 
-			if row.Sets != w.Exercises[i].Rows[j].Sets {
+			if row.Sets != correctWorkout.Exercises[i].Rows[j].Sets {
 				t.Errorf("field \"Workout.Exercises[%d].Rows[%d].Sets\" not correct\n", i, j)
 			}
 		}

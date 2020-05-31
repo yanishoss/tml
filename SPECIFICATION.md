@@ -19,7 +19,7 @@
 
 \<weight\>: float
 
-\<unit\>: "kg", "lbs", "count, "min" or "s", "kg" by default
+\<unit\>: "kg", "lbs", "count, "min" or "s", "count" by default
 
 \<reps\>: integer in [0, +inf]
 

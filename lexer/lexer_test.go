@@ -14,6 +14,9 @@ good squat session
 60kg x 3 x 5 @ 6
 60kg x 3 x 5 @ 6.4
 good deadlift session
+
+# Push-up
+5 x 3
 `)
 
 	correctTokens := []Token{
@@ -64,6 +67,14 @@ good deadlift session
 		{NUMBER, "6.4"},
 		{DELIMITER, "\n"},
 		{TEXT, "good deadlift session\n"},
+		{DELIMITER, "\n"},
+		{HASH, "#"},
+		{IDENT, "Push-up"},
+		{DELIMITER, "\n"},
+		{NUMBER, "5"},
+		{CROSS, "x"},
+		{NUMBER, "3"},
+		{DELIMITER, "\n"},
 		{EOF, ""},
 	}
 

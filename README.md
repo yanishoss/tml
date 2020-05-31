@@ -21,7 +21,7 @@ my squat session felt really great! I hit my RPEs seamlessly!
 my deadlift session felt really great! I hit my RPEs seamlessly!
 
 # Push ups
-1 count x 25 x 4
+25 x 4
 it felt really hard, trust me!
 ```
 
