@@ -15,7 +15,7 @@ func Parse(input string, conf parser.Config) (*parser.Workout, error) {
 
 func WithDefaultConfig() parser.Config {
 	return parser.Config{
-		DefaultUnit: "kg",
+		DefaultUnit: "count",
 		ValidUnits:  []string{"kg", "lbs", "s", "min", "count"},
 		RPERange:    [2]float64{0, 11},
 	}
