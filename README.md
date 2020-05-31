@@ -104,3 +104,7 @@ type Config struct {
 ```
 
 ## [Language Specification](https://github.com/yanishoss/tml/blob/master/SPECIFICATION.md "TML Specification")
+
+## Acknowledgments
+### [weightroom.uk](https://weightroom.uk/ "Weightroom")
+I have gotten this idea from [weightroom.uk](https://weightroom.uk/ "Weightroom") as I was using their app to track my Powerlifting progression.  
