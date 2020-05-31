@@ -2,12 +2,35 @@
 
 > *TML* stands for *Training Markup Language*. *TML* is a markup language aiming at providing a simple and clean way to describe a training/workout with the exercises and the performances.
 
+## Example
+```tml
+I really enjoyed my workout because of my TML logs!
+
+# Squat
+150kg x 5 @ 7
+160kg x 5 @ 8
+160kg x 5 @ 8
+160kg x 5 @ 9
+my squat session felt really great! I hit my RPEs seamlessly!
+
+# Deadlift
+150kg x 5 @ 7
+160kg x 5 @ 8
+160kg x 5 @ 8
+160kg x 5 @ 9
+my deadlift session felt really great! I hit my RPEs seamlessly!
+
+# Push ups
+1 count x 25 x 4
+it felt really hard, trust me!
+```
+
 ## Installation
 ```shell script
 go get -u github.com/yanishoss/tml
 ```
 
-## Usage
+## Parsing in Go
 ```go
 package main
 
@@ -80,4 +103,4 @@ type Config struct {
 }
 ```
 
-## [Language Specification](https://github.com/yanishoss/tml/master/SPECIFICATION.md "TML Specification")
+## [Language Specification](https://github.com/yanishoss/tml/blob/master/SPECIFICATION.md "TML Specification")
