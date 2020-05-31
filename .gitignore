@@ -3,3 +3,4 @@ vendor/
 *.docx
 *.bin
 *.exe
+.idea/
