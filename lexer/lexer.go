@@ -48,12 +48,12 @@ func (l *lexer) init() {
 	}
 }
 
-func (l *lexer) char() rune {
-	return rune(l.input[l.curPos])
+func (l *lexer) char() string {
+	return l.input[l.curPos:l.curPos+1]
 }
 
-func (l *lexer) peekChar() rune {
-	return rune(l.input[l.peekPos])
+func (l *lexer) peekChar() string {
+	return l.input[l.peekPos:l.peekPos+1]
 }
 
 func (l *lexer) readChar() {
@@ -74,7 +74,7 @@ func (l *lexer) eatWhitespaces() {
 	for !l.eof() {
 		ch := l.char()
 
-		if ch != ' ' && ch != '\t' {
+		if ch != " " && ch != "\t" {
 			break
 		}
 
@@ -96,13 +96,13 @@ func (l *lexer) parseText() Token {
 	for !l.eof() {
 		ch := l.char()
 
-		if ch == '\n' && (l.peekChar() == '\n' || l.peekChar() == '#') {
-			literal += string(ch)
+		if ch == "\n" && (l.peekChar() == "\n" || l.peekChar() == "#") {
+			literal += ch
 			l.readChar()
 			break
 		}
 
-		literal += string(ch)
+		literal += ch
 
 		l.readChar()
 	}
@@ -116,11 +116,11 @@ func (l *lexer) parseIdent() Token {
 	for !l.eof() {
 		ch := l.char()
 
-		if ch == '\n' {
+		if ch == "\n" {
 			break
 		}
 
-		literal += string(ch)
+		literal += ch
 
 		l.readChar()
 	}
@@ -134,11 +134,11 @@ func (l *lexer) parseLabel() Token {
 	for !l.eof() {
 		ch := l.char()
 
-		if ch == ' ' {
+		if ch == " " {
 			break
 		}
 
-		literal += string(ch)
+		literal += ch
 
 		l.readChar()
 	}
@@ -152,11 +152,11 @@ func (l *lexer) parseNumber() Token {
 	for !l.eof() {
 		ch := l.char()
 
-		if !isDigit(ch) && ch != '.' {
+		if !isDigit(ch) && ch != "." {
 			break
 		}
 
-		literal += string(ch)
+		literal += ch
 
 		l.readChar()
 	}
@@ -171,21 +171,21 @@ func (l *lexer) lex() {
 		ch := l.char()
 
 		switch ch {
-		case '#':
+		case "#":
 			l.readChar()
-			l.push(Token{HASH, string(ch)})
+			l.push(Token{HASH, ch})
 			break
-		case 'x':
+		case "x":
 			l.readChar()
-			l.push(Token{CROSS, string(ch)})
+			l.push(Token{CROSS, ch})
 			break
-		case '@':
+		case "@":
 			l.readChar()
-			l.push(Token{AT, string(ch)})
+			l.push(Token{AT, ch})
 			break
-		case '\n':
+		case "\n":
 			l.readChar()
-			l.push(Token{DELIMITER, string(ch)})
+			l.push(Token{DELIMITER, ch})
 			break
 		default:
 			// Parse <exercise name>
@@ -236,6 +236,6 @@ func (l *lexer) PeekToken() Token {
 	return t
 }
 
-func isDigit(c rune) bool {
-	return c >= '0' && c <= '9'
+func isDigit(c string) bool {
+	return c >= "0" && c <= "9"
 }
