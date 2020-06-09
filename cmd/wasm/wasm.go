@@ -10,8 +10,8 @@ func main() {
 	defaultConfigFn := js.FuncOf(defaultConfig)
 	parseFn := js.FuncOf(parseTML)
 
-	js.Global().Set("TML.parse", parseFn)
-	js.Global().Set("TML.withDefaultConfig", defaultConfigFn)
+	js.Global().Set("TML_parse", parseFn)
+	js.Global().Set("TML_withDefaultConfig", defaultConfigFn)
 }
 
 func parseTML(_ js.Value, args []js.Value) interface{} {
