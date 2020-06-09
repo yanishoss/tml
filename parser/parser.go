@@ -70,7 +70,7 @@ func (p *parser) parseExercise() (Exercise, error) {
 	name := p.l.NextToken()
 
 	if name.Type != lexer.IDENT {
-		return e, errors.New(fmt.Sprintf("bad token: Token{%s, %s}, before: Token{%s, %s}", name.Type, name.Literal, p.l.PeekToken().Type, p.l.PeekToken().Literal))
+		return e, errors.New(fmt.Sprintf("bad token: Token{%s, %s} at position: %d-%d", name.Type, name.Literal, name.Start, name.End))
 	}
 
 	e.Name = name.Literal
