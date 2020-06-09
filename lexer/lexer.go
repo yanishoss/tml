@@ -15,6 +15,12 @@ const (
 type Token struct {
 	Type    string
 	Literal string
+
+	// It is [Start; End[
+	Start int
+
+	// End is not included
+	End int
 }
 
 type Lexer interface {
@@ -92,6 +98,7 @@ func (l *lexer) push(t Token) {
 
 func (l *lexer) parseText() Token {
 	literal := ""
+	start := l.curPos
 
 	for !l.eof() {
 		ch := l.char()
@@ -107,11 +114,12 @@ func (l *lexer) parseText() Token {
 		l.readChar()
 	}
 
-	return Token{TEXT, literal}
+	return Token{TEXT, literal, start, l.curPos}
 }
 
 func (l *lexer) parseIdent() Token {
 	literal := ""
+	start := l.curPos
 
 	for !l.eof() {
 		ch := l.char()
@@ -125,11 +133,13 @@ func (l *lexer) parseIdent() Token {
 		l.readChar()
 	}
 
-	return Token{IDENT, literal}
+	return Token{IDENT, literal, start, l.curPos}
 }
 
 func (l *lexer) parseLabel() Token {
 	literal := ""
+	start := l.curPos
+
 
 	for !l.eof() {
 		ch := l.char()
@@ -143,11 +153,12 @@ func (l *lexer) parseLabel() Token {
 		l.readChar()
 	}
 
-	return Token{LABEL, literal}
+	return Token{LABEL, literal, start, l.curPos}
 }
 
 func (l *lexer) parseNumber() Token {
 	literal := ""
+	start := l.curPos
 
 	for !l.eof() {
 		ch := l.char()
@@ -161,7 +172,7 @@ func (l *lexer) parseNumber() Token {
 		l.readChar()
 	}
 
-	return Token{NUMBER, literal}
+	return Token{NUMBER, literal, start, l.curPos}
 }
 
 func (l *lexer) lex() {
@@ -170,22 +181,24 @@ func (l *lexer) lex() {
 
 		ch := l.char()
 
+		start := l.curPos
+
 		switch ch {
 		case "#":
 			l.readChar()
-			l.push(Token{HASH, ch})
+			l.push(Token{HASH, ch, start, l.curPos})
 			break
 		case "x":
 			l.readChar()
-			l.push(Token{CROSS, ch})
+			l.push(Token{CROSS, ch, start, l.curPos})
 			break
 		case "@":
 			l.readChar()
-			l.push(Token{AT, ch})
+			l.push(Token{AT, ch, start, l.curPos})
 			break
 		case "\n":
 			l.readChar()
-			l.push(Token{DELIMITER, ch})
+			l.push(Token{DELIMITER, ch, start, l.curPos})
 			break
 		default:
 			// Parse <exercise name>
@@ -211,7 +224,7 @@ func (l *lexer) lex() {
 		}
 	}
 
-	l.push(Token{EOF, ""})
+	l.push(Token{EOF, "", l.curPos, l.curPos})
 }
 
 func (l *lexer) NextToken() Token {
